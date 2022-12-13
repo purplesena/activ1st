@@ -1,0 +1,26 @@
+{% extends 'landing/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-5 col-sm-6">
+            <a href="{% url 'event-detail'  object.pk %}" class="btn btn-light">back to events</a>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-3 mb-5">
+        <div class="col-md-5 col-sm-12 border-bottom">
+            <form method="POST">
+                {% csrf_token %}
+                <h5>are you sure?</h5>
+                <p>you are about to delete your event. this cannot be undone. 
+                    (i mean maybe i could try to recover it, but i probably won't lmao)
+                </p>
+                <div class="d-grid gap-2">
+                    <button class="btn btn-danger mt-3">yes, i'm sure</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
