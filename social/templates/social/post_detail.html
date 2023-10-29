@@ -1,0 +1,77 @@
+{% extends 'landing/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-5 col-sm-6">
+            <a href="{% url 'post-list' %}" class="btn btn-light">back to feed</a>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-5 col-sm-12 border-bottom">
+            <p><a style="text-decoration: none;" href="{% url 'profile' post.author.profile.pk %}" class="link-dark"><strong>{{ post.author }}</strong></a> {{ post.created_on }}
+            {% if request.user == post.author %}
+                <a href="{% url 'post-edit' post.pk %}" style="color: #333"><i class="far fa-edit"></i></a>
+                <a href="{% url 'post-delete' post.pk %}" style="color: #333"><i class="fas fa-trash"></i></a>
+            {% endif %}
+            </p>
+            <p>{{ post.body }}</p>
+              {% if post.image1 %}
+              <img src={{ post.image1.url }} style="max-width: 100%; height: auto; border-radius: 10px; margin-bottom: 10px;">
+              {% endif %}
+              {% if post.image2 %}
+              <img src={{ post.image2.url }} style="max-width: 100%; height: auto; border-radius: 10px; margin-bottom: 10px;">
+              {% endif %}
+              <div class="d-flex flex-row">
+                <form method="post" action="{% url 'like' post.pk %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.path }}">
+                    <button style="background-color: transparent; border: none; box-shadow: none;" type="submit">
+                        {% if request.user in post.likes.all %}
+                        <i class="far fa-thumbs-up" style="color: #5ac84c;"><span>{{ post.likes.all.count }}</span></i>
+                        {% else %}
+                        <i class="far fa-thumbs-up" ><span>{{ post.likes.all.count }}</span></i>
+                        {% endif %}
+                    </button>
+                </form>
+                <form method="post" action="{% url 'dislike' post.pk %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.path }}">
+                    <button style="background-color: transparent; border: none; box-shadow: none;" type="submit">
+                        {% if request.user in post.dislikes.all %}
+                        <i class="far fa-thumbs-down" style="color: #f82a2a;"><span>{{ post.dislikes.all.count }}</span></i>
+                        {% else %}
+                        <i class="far fa-thumbs-down"><span>{{ post.dislikes.all.count }}</span></i>
+                        {% endif %}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mt-3 mb-5">
+        <div class="col-md-5 col-sm-12">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <div class="d-grid gap-2">
+                    <button class="btn btn-success mt-3">submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% for comment in comments %}
+    <div class="row justify-content-center mt-3 mb-5">
+        <div class="col-md-5 col-sm-12 border-bottom">
+            <p><a style="text-decoration: none;" href="{% url 'profile' comment.author.profile.pk %}" class="link-dark"><strong>{{ comment.author }}</strong></a> {{ comment.created_on }}
+            {% if request.user == comment.author %}
+                <a href="{% url 'comment-delete' post.pk comment.pk %}" style="color: #333"><i class="fas fa-trash"></i></a>
+            {% endif %}
+            </p>
+            <p>{{ comment.comment }}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}

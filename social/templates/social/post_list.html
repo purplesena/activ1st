@@ -1,0 +1,66 @@
+{% extends 'landing/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-5 col-sm-12 border-bottom">
+            <h5>add post!</h5>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-3 mb-5">
+        <div class="col-md-5 col-sm-12 border-bottom">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <div class="d-grid gap-2">
+                    <button class="btn btn-success mt-3">submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% for post in post_list %}
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-5 col-sm-12 border-bottom position-relative">
+            <p><img src="{{ post.author.profile.picture.url }}" class="rounded-circle" style="margin: 10px;" width="50" height="50"/><strong>{{ post.author }}</strong> {{ post.created_on }}</p>
+            <div class="position-relative">
+              <p>{{ post.body }}</p>
+              {% if post.image1 %}
+              <img src={{ post.image1.url }} style="max-width: 100%; height: auto; border-radius: 10px; margin-bottom: 10px;">
+              {% endif %}
+              {% if post.image2 %}
+              <img src={{ post.image2.url }} style="max-width: 100%; height: auto; border-radius: 10px; margin-bottom: 10px;">
+              {% endif %}
+              <p>comment...</p>
+            <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
+            </div>
+            <div class="d-flex flex-row">
+                <form method="post" action="{% url 'like' post.pk %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.path }}">
+                    <button style="background-color: transparent; border: none; box-shadow: none;" type="submit">
+                        {% if request.user in post.likes.all %}
+                        <i class="far fa-thumbs-up" style="color: #5ac84c;"><span>{{ post.likes.all.count }}</span></i>
+                        {% else %}
+                        <i class="far fa-thumbs-up" ><span>{{ post.likes.all.count }}</span></i>
+                        {% endif %}
+                    </button>
+                </form>
+                <form method="post" action="{% url 'dislike' post.pk %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.path }}">
+                    <button style="background-color: transparent; border: none; box-shadow: none;" type="submit">
+                        {% if request.user in post.dislikes.all %}
+                        <i class="far fa-thumbs-down" style="color: #f82a2a;"><span>{{ post.dislikes.all.count }}</span></i>
+                        {% else %}
+                        <i class="far fa-thumbs-down"><span>{{ post.dislikes.all.count }}</span></i>
+                        {% endif %}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}
