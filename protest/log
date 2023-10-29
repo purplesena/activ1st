@@ -1,0 +1,11 @@
+08.28.23
+folder 'protest' is complete relative to protests.
+social/models is full.
+social/forms is full.
+social/admin is full.
+social/tests is full.
+social/apps is full.
+social/views is full.
+social/urls is full.
+social/templates/protest_delete.html is full.
+social/templates/search is commented out for now.
