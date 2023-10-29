@@ -1,0 +1,42 @@
+{% load static %}
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'index' %}">activ1st</a>
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                {% if user.is_authenticated %}
+                <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'profile' user.profile.pk %}">profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'post-list' %}">posts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'protests' %}">protests</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'account_logout' %}">log out</a>
+                    </li>
+                </ul>
+                {% endif %}
+            </div>
+            <form class="d-flex" method="GET" action="{% url 'search' %}">
+                <div class="input-group">
+                  <span class="input-group-text" id="basic-addon1"></span>
+                  <input class="form-control me-2" type="search" placeholder="search..." aria-label="Search" name="query" value="{{ request.GET.query }}">
+                  <button style="border: none; background-color: transparent; box-shadow: none;" type="submit"><i class="fas fa-search"></i></button>
+                </div>
+            </form> 
+        </div>
+    </nav>
