@@ -1,0 +1,32 @@
+{% extends 'landing/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-5 col-sm-6">
+            <a href="{% url 'protests' %}" class="btn btn-light">back to feed</a>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-5 col-sm-12">
+            <p>
+                <strong>{{ protest.title }}</strong>
+                {% if request.user == protest.author %}
+                <a href="{% url 'protest-delete' protest.pk %}" style="color: #ea2f2f"><i class="fas fa-trash"></i></a>
+                {% endif %}
+            </p>
+            <p>When? {{ protest.date }}</p>
+            <p>Where? {{ protest.location }}</p>
+            <p>For? {{ protest.keyword }}</p>
+            <p>{{ protest.body }}</p>
+                        {% if protest.image %}
+              <img src="{{ protest.image.url }}" style="max-width: 100%; height: auto; border-radius: 10px; margin-bottom: 10px;">
+              {% endif %}
+            {% if protest.link %}
+              <a href="{{ protest.link }}" target="_blank"><button class="btn btn-outline-info mb-2">find out more here</button></a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

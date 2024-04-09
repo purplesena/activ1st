@@ -1,0 +1,1 @@
+9999999999{"name": "django-mapbox-location-field", "version": "2.0.0", "summary": "location field with MapInput widget for picking some location", "platform": "", "requires_dist": ["django"], "requires_python": null, "files": [], "_cache_version": "1.0.0"}
