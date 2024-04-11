@@ -13,7 +13,12 @@ from django.views.generic.edit import UpdateView, DeleteView
 class ProtestListView(View):
     def get(self, request, *args, **kwargs):
         protests = Protest.objects.all().order_by('-created_on')
+        preferred = request.user.profile.preferred
+        
         form = ProtestForm()
+        preferred_list = Protest.objects.filter(
+            Q(keyword__icontains=preferred)
+        )
 
         context = {
             'protest_list': protests,

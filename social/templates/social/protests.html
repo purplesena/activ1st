@@ -7,26 +7,27 @@
     <div class="row justify-content-center mt-3">
         <div class="col-md-5 col-sm-12 border-bottom">
             <h5 class="mb-3">protests</h5>
-            <p>search for keywords or scroll through events in your location</p>
-            <button class="btn btn-light mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#protest-form" aria-expanded="true" aria-controls="protest-form">upload a protest</button>
-        </div>
-        <div id="protest-form" class="justify-content-center collapse mt-3 mb-5" >
-            <div class="col-md-5 col-sm-12 border-bottom">
-                <form method='POST' enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {{ form | crispy }}
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-success mt-3">submit</button>
-                    </div>
-                </form>
+            <p>search for keywords (upper right corner) or scroll through events in your location. use your preference settings to only see protests in your area in your chosen focus area.</p>
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" value="" id="preference">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Do you want to use your preference settings?
+                </label>
+            </div>
+            <button class="btn btn-outline-success mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#protest-form" aria-expanded="true" aria-controls="protest-form">upload a protest</button>
+            <button class="btn btn-outline-light mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#" aria-expanded="true" aria-controls="protest-form">upload a protest</button>
+            <div id="protest-form" class="justify-content-center collapse mt-3 mb-5" >
+                <div class="border-bottom">
+                    <form method='POST' enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form | crispy }}
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-success mt-3">submit</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-              Do you want to use your preference settings?
-            </label>
-          </div>
     </div>
     {% for protest in protest_list %}
     <div class="row justify-content-center mt-3 mb-3">
